@@ -1,30 +1,39 @@
+import java.util.Random;
+
 /**
  * Created by winson on 2017-05-19.
  */
 public class Appointment implements Comparable<Appointment> {
 
-    private String dayweek;
+    private String date;
     private int timeStart;
     private int timeEnd;
     private String dsp;
     private boolean isCompleted;
     private boolean isStacked = false;
     private int priority;
+    private String time;
+    private int id;
     private enum Occasions {
         Work, Family, Exercise, Eating
     }
     private Occasions occasion;
     private String location;
 
-    public Appointment(int timeStart, int timeEnd, String dsp, String location, int priority, Occasions occasions) {
+    public Appointment(int timeStart, int timeEnd, String date, String dsp, String location,
+                       boolean isCompleted, boolean isStacked, int priority, String time,
+                       Occasions occasions) {
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
-        this.dayweek = dayweek;
+        this.date = date;
         this.dsp = dsp;
         this.location = location;
-        this.isCompleted = false;
+        this.isCompleted = isCompleted;
+        this.isStacked = isStacked;
         this.priority = priority;
         this.occasion = occasions;
+        this.time = time;
+        //add one more, generate ID
     }
 
     //getters
@@ -37,7 +46,7 @@ public class Appointment implements Comparable<Appointment> {
         return this.timeEnd;
     }
 
-    public String getDayweek() { return this.dayweek; }
+    public String getDate() { return this.date; }
 
     public String getDsp() { return this.dsp; }
 
@@ -53,6 +62,10 @@ public class Appointment implements Comparable<Appointment> {
 
     public int getPriority() {
         return this.priority;
+    }
+
+    public String getTime() {
+        return this.time;
     }
 
     public Occasions getOccasion() {
@@ -87,6 +100,10 @@ public class Appointment implements Comparable<Appointment> {
 
     public void setPriority(int num) {
         this.priority = num;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public void setOccasion(Occasions occasion) {
