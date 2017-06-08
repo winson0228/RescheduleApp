@@ -14,7 +14,7 @@ public class Appointment implements Comparable<Appointment> {
     private int priority;
     private String time;
     private int id;
-    private enum Occasions {
+    public enum Occasions {
         Work, Family, Exercise, Eating
     }
     private Occasions occasion;

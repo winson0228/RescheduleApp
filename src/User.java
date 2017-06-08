@@ -35,6 +35,11 @@ public class User {
         calendar.get(time).remove(apt);
     }
 
+    //Display schedule for today (only this for now)
+    public void displaySchedule() {
+
+    }
+
     //getters
 
     public String getName() {
