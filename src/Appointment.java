@@ -36,6 +36,18 @@ public class Appointment implements Comparable<Appointment> {
         //add one more, generate ID
     }
 
+    //Displays date, time duration, completion status, priority (for now)
+    public void displayInfo() {
+        System.out.println("Appointment date: " + date);
+        System.out.println("Time: " + timeStart + " to " + timeEnd);
+        if (isCompleted) {
+            System.out.println("The appointment completed.");
+        } else {
+            System.out.println("The appintment is coming up");
+        }
+        System.out.println("Priority status: " + priority);
+    }
+
     //getters
 
     public int getTimeStart() {

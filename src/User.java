@@ -9,41 +9,49 @@ import java.util.List;
 public class User {
 
     private HashMap<String, LinkedList<Appointment>> calendar = new HashMap<String, LinkedList<Appointment>>();
-    private String name;
+    private String username;
     private int availStart;
     private int availEnd;
 
 
 
-    public User(String name) {
-        this.name = name;
+    public User(String username) {
+        this.username = username;
     }
 
     public void addApt(Appointment apt) {
-        String time = apt.getTime();
-        if (calendar.containsKey(time)) {
-            calendar.get(time).add(apt);
+        String date = apt.getDate();
+        if (calendar.containsKey(date)) {
+            calendar.get(date).add(apt);
         } else {
-            calendar.put(time, new LinkedList<Appointment>());
-            calendar.get(time).add(apt);
+            calendar.put(date, new LinkedList<Appointment>());
+            calendar.get(date).add(apt);
         }
-        //calendar.get(time).sort(appointments);
+        //calendar.get(date).sort(appointments);
+        Collections.sort(calendar.get(date));
     }
 
     public void removeApt(Appointment apt) {
-        String time = apt.getTime();
-        calendar.get(time).remove(apt);
+        String date = apt.getDate();
+        calendar.get(date).remove(apt);
     }
 
     //Display schedule for today (only this for now)
-    public void displaySchedule() {
-
+    public void displaySchedule(String date) {
+        if (calendar.get(date).size() > 0) {
+            LinkedList<Appointment> day = calendar.get(date);
+            for (Appointment apt : day) {
+                apt.displayInfo();
+            }
+        } else {
+            System.out.println("No appointments for that day");
+        }
     }
 
     //getters
 
-    public String getName() {
-        return this.name;
+    public String getusername() {
+        return this.username;
     }
 
     public void setAvailibility(int time1, int time2) {
@@ -94,6 +102,16 @@ public class User {
         return null;
     }
 
+    //find appointment occupying a time in a day
+    public Appointment findOccupied(String day, String time) {
+        LinkedList<Appointment> lapt = calendar.get(day);
+        for(Appointment apt : lapt) {
+            if(apt.getTimeStart() >= Integer.parseInt(time) && apt.getTimeEnd() <= Integer.parseInt(time)) {
+                return apt;
+            }
+        }
+        return null;
+    }
     //sort by priorities of each appointment in a day
     public void sortPriority(String date) {
         //Comparator class?
