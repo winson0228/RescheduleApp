@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:id="@+id/activity_add_apt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context="com.example.winso.scheduleapp.AddAptActivity" android:weightSum="1">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        >
+
+            <TextView
+                    android:text="Title: "
+                    android:textSize="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/textView3" android:layout_weight="1"
+                    android:layout_alignBaseline="@+id/editText" android:layout_alignBottom="@+id/editText"
+                    android:layout_alignParentLeft="true" android:layout_alignParentStart="true"/>
+            <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/editText"
+                    android:layout_alignParentTop="true" android:layout_toRightOf="@+id/textView3"
+                    android:layout_toEndOf="@+id/textView3"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="419dp" android:paddingTop="@dimen/activity_vertical_margin"
+                    android:layout_weight="0.03">
+        <TextView
+                android:text="Date: "
+                android:textSize="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/tvDate"
+                android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+        <Button
+                android:text="Calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/openCalBtn"
+                android:layout_below="@+id/display_date" android:layout_centerHorizontal="true"/>
+        <TextView
+                android:text="@string/select_a_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/timeStart" android:textSize="25sp" android:layout_below="@+id/openCalBtn"
+                android:layout_toRightOf="@+id/tvDate" android:layout_toEndOf="@+id/tvDate"/>
+        <TextView
+                android:text="@string/add_time_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvTimeStart" android:textSize="25sp"
+                android:layout_alignBaseline="@+id/timeStart" android:layout_alignBottom="@+id/timeStart"
+                android:layout_alignParentLeft="true" android:layout_alignParentStart="true"/>
+        <Spinner
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/startHourSpinner"
+                android:layout_below="@+id/tvTimeStart" android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+        <Spinner
+                android:layout_width="75dp"
+                android:layout_height="wrap_content" android:id="@+id/startMinSpinner"
+                android:layout_below="@+id/timeStart" android:layout_alignLeft="@+id/timeStart"
+                android:layout_alignStart="@+id/timeStart" android:layout_marginLeft="14dp"
+                android:layout_marginStart="14dp"/>
+        <Spinner
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/startAmPmSpinner" android:layout_below="@+id/timeStart"
+                android:layout_toRightOf="@+id/startMinSpinner" android:layout_toEndOf="@+id/startMinSpinner"/>
+        <TextView
+                android:text="To: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_below="@+id/startHourSpinner"
+                android:id="@+id/tvEnd"
+                android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
+                android:layout_marginTop="36dp" android:textSize="25sp"/>
+        <TextView
+                android:text="@string/select_a_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_alignTop="@+id/tvEnd"
+                android:layout_alignLeft="@+id/timeStart" android:layout_alignStart="@+id/timeStart"
+                android:id="@+id/tvTimeEnd" android:textSize="25sp"/>
+        <Spinner
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/endHourSpinner" android:layout_below="@+id/tvEnd" android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+        <Spinner
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/endMinSpinner" android:layout_alignTop="@+id/endHourSpinner"
+                android:layout_toRightOf="@+id/endHourSpinner" android:layout_toEndOf="@+id/endHourSpinner"/>
+        <Spinner
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/endAmPmSpinner" android:layout_alignTop="@+id/endMinSpinner"
+                android:layout_toRightOf="@+id/endMinSpinner" android:layout_toEndOf="@+id/endMinSpinner"/>
+        <Button
+                android:text="Add to calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_alignParentBottom="true"
+                android:layout_toEndOf="@+id/endAmPmSpinner"
+                android:id="@+id/finished_adding_btn" android:layout_toRightOf="@+id/endAmPmSpinner"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/display_date"
+                android:textSize="30dp"
+                android:text="Choose a date"
+                android:layout_alignParentTop="true" android:layout_toRightOf="@+id/tvDate"
+                android:layout_toEndOf="@+id/tvDate" android:layout_marginTop="2dp"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

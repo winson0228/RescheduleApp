@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+                android:layout_height="match_parent"
+             tools:context="com.example.winso.scheduleapp.SwipibleFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+            android:text="Event Number: "
+            android:textSize="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_event_num"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"/>
+    <TextView
+            android:text="Empty Information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/event_info"
+            android:layout_below="@+id/tv_event_num"
+            android:layout_centerHorizontal="true"/>
+</RelativeLayout>
