@@ -1,6 +1,8 @@
-package com.example.winso.scheduleapp;
+package com.example.winso.scheduleapp2;
 
 import android.content.Intent;
+import android.icu.util.Calendar;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.*;
@@ -15,10 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.LinkedList;
+import java.util.Locale;
 
 public class SingleViewerActivity extends AppCompatActivity {
 
@@ -31,7 +36,8 @@ public class SingleViewerActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SwipePagerAdapter mSwipePagerAdapter;
-    private TextView testDate;
+    private TextView testDateTV;
+    private TextView todayTV;
     private static final String EVENT_DATE = "event_date";
     public static String newline = System.getProperty("line.separator");
 
@@ -40,9 +46,11 @@ public class SingleViewerActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     public static final User user = new User("user1");
-    private static String today = "06172017";
+    public static final String today = "6242017";
+    private java.util.Calendar calendar = DateTime.getCalendar();
     private String newEventDate = "";
-    private final LinkedList<Appointment> eventsToday = user.getLApt(today);
+    private String displayDate;
+    private static LinkedList<Appointment> eventsToday = user.getLApt(today);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +68,12 @@ public class SingleViewerActivity extends AppCompatActivity {
 
         Intent incomingIntent = getIntent();
         newEventDate = incomingIntent.getStringExtra(EVENT_DATE);
-        testDate = (TextView) findViewById(R.id.testIntent);
-        testDate.setText(newEventDate);
+        //testDateTV = (TextView) findViewById(R.id.testIntent);
+        //testDateTV.setText(newEventDate);
 
+        todayTV = (TextView) findViewById(R.id.today_date);
+
+        todayTV.setText(calendar.getDisplayName(Calendar.MONTH, java.util.Calendar.LONG,  Locale.getDefault()) + " " + calendar.get(Calendar.DAY_OF_MONTH) + ", " + calendar.get(java.util.Calendar.YEAR));
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,8 +91,17 @@ public class SingleViewerActivity extends AppCompatActivity {
         System.out.println(user.getLApt(today));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateAptList();
+    }
     private void updateAptList() {
         user.getLApt(today);
+        mSwipePagerAdapter.notifyDataSetChanged();
+        //System.out.println(user.getLApt(today).size());
+        System.out.println(today);
+        System.out.println("Updated today's calendar");
     }
 
 
@@ -94,11 +114,14 @@ public class SingleViewerActivity extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_EVENT_NUMBER = "event_number";
-        TextView event_num;
-        TextView event_info;
+        //private TextView emptyAptTV;
+        private TextView event_num;
+        private TextView event_info;
+        private TextView eventTitleTV;
+        private TextView eventTimeTV;
         //dont use static??
-        private static Appointment apt;
-        private static LinkedList<Appointment> lApt = user.getLApt(today);
+        public static Appointment apt;
+        public static LinkedList<Appointment> lAptFrag = user.getLApt(today);
 
         public SwipibleFragment() {
         }
@@ -112,27 +135,57 @@ public class SingleViewerActivity extends AppCompatActivity {
             Bundle args = new Bundle();
             args.putInt(ARG_EVENT_NUMBER, eventNumber);
             fragment.setArguments(args);
-            if(lApt != null) {
-                apt = lApt.get(eventNumber - 1);
+            //lApt = user.getLApt(today);
+            if(lAptFrag != null) {
+                System.out.println("lApt is not null");
             }
+            System.out.println("event number (newInstance) " + eventNumber);
             return fragment;
         }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            if (savedInstanceState == null) {
+                // During initial setup, plug in the details fragment.
+                lAptFrag = user.getLApt(today);
+            }
+        }
+
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View swiper_layout_view = inflater.inflate(R.layout.fragment_swipible_layout, container, false);
             event_num = (TextView) swiper_layout_view.findViewById(R.id.tv_event_num);
-            event_info = (TextView) swiper_layout_view.findViewById(R.id.event_info);
+            event_info = (TextView) swiper_layout_view.findViewById(R.id.event_dsp);
+            eventTitleTV = (TextView) swiper_layout_view.findViewById(R.id.event_title);
+            eventTimeTV = (TextView) swiper_layout_view.findViewById(R.id.event_time);
+            //emptyAptTV = (TextView) swiper_layout_view.findViewById(R.id.noapt_TV);
             Bundle bundle = getArguments();
             String message = Integer.toString(bundle.getInt(ARG_EVENT_NUMBER));
-            if (apt != null) {
-                event_info.append(apt.getTimeStart() + " - " + apt.getTimeEnd() + newline);
-            } else {
-                event_num.setText("Event Number: " + message);
-                event_info.setText("Test " + message);
+            int eventNumber = bundle.getInt(ARG_EVENT_NUMBER);
+            System.out.println(lAptFrag);
+            System.out.println("event number " + eventNumber);
+            eventTitleTV.setText("No events.");
+            if (lAptFrag != null) {
+                //emptyAptTV.setText("");
+                apt = lAptFrag.get(eventNumber);
+                eventTitleTV.setText(apt.getTitle());
+                event_num.setText("Event Number: " + bundle.getInt(ARG_EVENT_NUMBER));
+                eventTimeTV.setText(formatTime(Integer.toString(apt.getTimeStart())) + " - " + formatTime(Integer.toString(apt.getTimeEnd())));
+                event_info.setText(apt.getDsp());
             }
+
             return swiper_layout_view;
+        }
+
+        public String formatTime(String time) {
+            if (time.length() == 3) {
+                return "0" + time.substring(0, 1) + ":" + time.substring(1);
+            } else  {
+                return time.substring(0, 2) + ":" + time.substring(2);
+            }
         }
     }
 
@@ -150,7 +203,11 @@ public class SingleViewerActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a SwipibleFragment (defined as a static inner class below).
-            return SwipibleFragment.newInstance(position + 1);
+            if (SwipibleFragment.lAptFrag != null) {
+               SwipibleFragment.apt = SwipibleFragment.lAptFrag.get(position);
+               System.out.println("getItem Position = " + position);
+            }
+            return SwipibleFragment.newInstance(position);
         }
 
         @Override
@@ -158,11 +215,20 @@ public class SingleViewerActivity extends AppCompatActivity {
             if (user.getLApt(today) != null) {
                 return user.getLApt(today).size();
             } else {
-                return 1;
+                return 0;
             }
 
         }
+/*
+        @Override
+        public boolean isViewFromObject(View view, Object o) {
+            return (view ==  o);
+        }
 
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((RelativeLayout) object);
+        }
         /*
         @Override
         public Object instantiateItem(ViewGroup container, int position) {

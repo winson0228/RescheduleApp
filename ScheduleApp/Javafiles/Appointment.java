@@ -1,4 +1,4 @@
-package com.example.winso.scheduleapp;
+package com.example.winso.scheduleapp2;
 import java.util.Random;
 
 /**
@@ -6,6 +6,7 @@ import java.util.Random;
  */
 public class Appointment implements Comparable<Appointment> {
 
+    private String title;
     private String date;
     private int timeStart;
     private int timeEnd;
@@ -21,9 +22,10 @@ public class Appointment implements Comparable<Appointment> {
     private Occasions occasion;
     private String location;
 
-    public Appointment(int timeStart, int timeEnd, String date, String dsp, String location,
+    public Appointment(String title, int timeStart, int timeEnd, String date, String dsp, String location,
                        boolean isCompleted, boolean isStacked, int priority, String time,
                        Occasions occasions) {
+        this.title = title;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.date = date;
@@ -44,6 +46,23 @@ public class Appointment implements Comparable<Appointment> {
         //add one more, generate ID
     }
 
+    public Appointment(String title, int timeStart, int timeEnd, String date) {
+        this.title = title;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.date = date;
+        //add one more, generate ID
+    }
+
+    public Appointment(String title, int timeStart, int timeEnd, String date, String dsp) {
+        this.title = title;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.date = date;
+        this.dsp = dsp;
+        //add one more, generate ID
+    }
+
     //Displays date, time duration, completion status, priority (for now)
     public void displayInfo() {
         System.out.println("Appointment date: " + date);
@@ -57,6 +76,8 @@ public class Appointment implements Comparable<Appointment> {
     }
 
     //getters
+
+    public String getTitle() { return this.title; }
 
     public int getTimeStart() {
         return this.timeStart;
@@ -94,6 +115,7 @@ public class Appointment implements Comparable<Appointment> {
 
     //setters
 
+    public void setTitle(String title) { this.title = title; }
     public void setTimeStart(int time) {
         this.timeStart = time;
     }

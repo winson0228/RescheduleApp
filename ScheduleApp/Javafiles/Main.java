@@ -1,4 +1,4 @@
-package com.example.winso.scheduleapp;
+package com.example.winso.scheduleapp2;
 
 import java.util.Scanner;
 
@@ -9,6 +9,7 @@ public class Main {
 
 
     public static void main(String[] args) {
+        String title = "";
         Scanner scan = new Scanner(System.in);
         System.out.println("Type in your username: ");
         String username = scan.nextLine();
@@ -47,7 +48,7 @@ public class Main {
                 System.out.println("How much should this appointment be prioritized over other appointments?");
                 int isPriority1 = scan.nextInt();
 
-                apt1 = new Appointment(startTime1, endTime1, date1, "none", "canada", false,
+                apt1 = new Appointment(title, startTime1, endTime1, date1, "none", "canada", false,
                         isStacked1, isPriority1, "a", Appointment.Occasions.Family);
                 user.addApt(apt1);
                 //user.displaySchedule(date1);

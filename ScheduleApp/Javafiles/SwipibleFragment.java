@@ -1,4 +1,4 @@
-package com.example.winso.scheduleapp;
+package com.example.winso.scheduleapp2;
 
 import android.content.Context;
 import android.net.Uri;

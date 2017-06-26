@@ -1,4 +1,4 @@
-package com.example.winso.scheduleapp;
+package com.example.winso.scheduleapp2;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -14,7 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.example.winso.scheduleapp.SingleViewerActivity.user;
+import static com.example.winso.scheduleapp2.SingleViewerActivity.user;
 
 public class AddAptActivity extends AppCompatActivity {
 
@@ -29,11 +29,14 @@ public class AddAptActivity extends AppCompatActivity {
     private String endAmPm;
     private String startTime;
     private String endTime;
+    private EditText titleInput;
+    private EditText dspInput;
     private TextView displayStartTime;
     private TextView displayEndTime;
     private TextView display_date;
     private String dateString;
     private Button openCal;
+    private long prevDate = 0;
     private Button finishedBtn;
     private Spinner startHourSpinner;
     private Spinner startMinSpinner;
@@ -51,6 +54,8 @@ public class AddAptActivity extends AppCompatActivity {
         display_date = (TextView) findViewById(R.id.display_date);
         displayStartTime = (TextView) findViewById(R.id.timeStart);
         displayEndTime = (TextView) findViewById(R.id.tvTimeEnd);
+        titleInput = (EditText) findViewById(R.id.titleInput);
+        dspInput = (EditText) findViewById(R.id.dspInput);
         SimpleDateFormat dateFormat = new SimpleDateFormat("mm/DD/yyyy");
         //Current time
         // get the supported ids for GMT-08:00 (Pacific Standard Time)
@@ -86,18 +91,21 @@ public class AddAptActivity extends AppCompatActivity {
                 AlertDialog.Builder cal_builder = new AlertDialog.Builder(AddAptActivity.this);
                 View cal_view = getLayoutInflater().inflate(R.layout.activity_calendar_dialog, null);
                 mCalendarView = (CalendarView) cal_view.findViewById(R.id.calendarView);
-
+                if (prevDate != 0) {
+                    mCalendarView.setDate(prevDate);
+                }
                 cal_builder.setView(cal_view);
                 final AlertDialog cal_dialog = cal_builder.create();
                 cal_dialog.show();
-
                 mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(CalendarView calendarView, int i, int i1, int i2) {
-                        String dateString = (i1+1) + "/" + i2 + "/" + i;
+                        prevDate = mCalendarView.getDate();
+                        dateString = (i1+1) + "/" + i2 + "/" + i;
                         display_date.setText(dateString);
-                        //Intent dateIntent = new Intent(AddAptActivity.this, SingleViewerActivity.class);
-                        //dateIntent.putExtra(EVENT_DATE, add_date);
+                        Intent dateIntent = new Intent(AddAptActivity.this, SingleViewerActivity.class);
+                        dateIntent.putExtra(EVENT_DATE, dateString);
+                        System.out.println("Calendar date changed to: " + dateString);
                         cal_dialog.dismiss();
                     }
                 });
@@ -213,15 +221,40 @@ public class AddAptActivity extends AppCompatActivity {
                 int endHour24 = Integer.parseInt(endHour);
                 if (startAmPm.equals("PM")) {
                     startHour = Integer.toString(startHour24 += 12);
-                } else if (endAmPm.equals("PM")) {
+                }
+                if (endAmPm.equals("PM")) {
                     endHour = Integer.toString(endHour24 += 12);
                 }
                 String timeStart24 = startHour.concat(startMin);
                 String timeEnd24 = endHour.concat(endMin);
-                Appointment new_apt = new Appointment(Integer.parseInt(timeStart24), Integer.parseInt(timeEnd24), dateString);
+                String aptTitle = titleInput.getText().toString();
+                String aptDsp = dspInput.getText().toString();
+                if (aptTitle.equals("")) {
+                    aptTitle = "Untitled Event";
+                }
+                if (aptDsp.equals("")) {
+                    aptDsp = "Empty Information";
+                }
+
+                if (startAmPm.equals("PM") && endAmPm.equals("AM")) {
+                    System.out.println("Error");
+                }
+                if ((startAmPm.equals("AM") && endAmPm.equals("AM")) || (startAmPm.equals("PM") && endAmPm.equals("PM"))) {
+                    if ((startHour24 > endHour24)) {
+                        System.out.println("Error");
+                    }
+                    if (startHour24 == endHour24) {
+                        if (Integer.parseInt(startMin) >= Integer.parseInt(endMin)) {
+                            System.out.println("Error");
+                        }
+                    }
+                }
+                Appointment new_apt = new Appointment(aptTitle, Integer.parseInt(timeStart24), Integer.parseInt(timeEnd24), dateString.replaceAll("\\D+",""), aptDsp);
+                System.out.println("regular exp: " + dateString.replaceAll("\\D+",""));
                 user.addApt(new_apt);
-                Intent gotoMain = new Intent(AddAptActivity.this, SingleViewerActivity.class);
-                startActivity(gotoMain);
+                finish();
+                //Intent gotoMain = new Intent(AddAptActivity.this, SingleViewerActivity.class);
+                //startActivity(gotoMain);
             }
         });
     }

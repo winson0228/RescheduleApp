@@ -13,5 +13,10 @@
     <string name="add_date">Choose a date</string>
     <string name="add_time_start">From:</string>
     <string name="select_a_time">Select a time</string>
+    <string name="today_date">Today:</string>
+    <string name="time_title_tv">Time: </string>
+    <string name="event_title">Empty Title, apt is null</string>
+    <string name="title_activity_tab">tabActivity</string>
+    <string name="event_dsp">Details:</string>
 
 </resources>

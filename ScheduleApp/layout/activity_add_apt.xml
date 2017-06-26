@@ -10,7 +10,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        tools:context="com.example.winso.scheduleapp.AddAptActivity" android:weightSum="1">
+        tools:context="com.example.winso.scheduleapp2.AddAptActivity" android:weightSum="1">
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
 
@@ -22,14 +22,14 @@
                     android:textSize="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:id="@+id/textView3" android:layout_weight="1"
-                    android:layout_alignBaseline="@+id/editText" android:layout_alignBottom="@+id/editText"
+                    android:layout_alignBaseline="@+id/titleInput" android:layout_alignBottom="@+id/titleInput"
                     android:layout_alignParentLeft="true" android:layout_alignParentStart="true"/>
             <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:ems="10"
-                    android:id="@+id/editText"
+                    android:id="@+id/titleInput"
                     android:layout_alignParentTop="true" android:layout_toRightOf="@+id/textView3"
                     android:layout_toEndOf="@+id/textView3"/>
         </RelativeLayout>
@@ -107,12 +107,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/endAmPmSpinner" android:layout_alignTop="@+id/endMinSpinner"
                 android:layout_toRightOf="@+id/endMinSpinner" android:layout_toEndOf="@+id/endMinSpinner"/>
-        <Button
-                android:text="Add to calendar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@+id/endAmPmSpinner"
-                android:id="@+id/finished_adding_btn" android:layout_toRightOf="@+id/endAmPmSpinner"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -122,6 +116,26 @@
                 android:layout_alignParentTop="true" android:layout_toRightOf="@+id/tvDate"
                 android:layout_toEndOf="@+id/tvDate" android:layout_marginTop="2dp"/>
 
+        <Button
+                android:text="Add to calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/finished_adding_btn" android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true" android:layout_alignParentEnd="true"
+                android:layout_toRightOf="@+id/endAmPmSpinner" android:layout_toEndOf="@+id/endAmPmSpinner"/>
+        <TextView
+                android:text="@string/event_dsp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_below="@+id/endHourSpinner"
+                android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
+                android:layout_marginTop="11dp" android:id="@+id/textView" android:textSize="25sp"/>
+        <EditText android:layout_width="100dp" android:layout_height="100dp"
+                  android:textSize="14dp"
+                  android:id="@+id/dspInput"
+                  android:inputType="textMultiLine"
+                  android:layout_below="@+id/textView" android:layout_alignParentLeft="true"
+                  android:layout_alignParentStart="true" android:layout_alignRight="@+id/tvTimeEnd"
+                  android:layout_alignEnd="@+id/tvTimeEnd"/>
     </RelativeLayout>
 
 
